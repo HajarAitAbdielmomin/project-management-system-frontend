@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import {ReactiveFormsModule, FormBuilder, FormControl,Validators, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-login-page',
@@ -10,14 +10,15 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
   styleUrl: './login-page.css',
 })
 export class LoginPage {
-  form;
+  form = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl('')
+  }
+  );
   showPassword = false;
-  
+
   constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
+
   }
 
   togglePasswordVisibility() {
