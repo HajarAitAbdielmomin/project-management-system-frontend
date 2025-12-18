@@ -21,7 +21,7 @@
     <!-- Logo animation placeholder -->
     <div class="w-8 h-8 sm:w-10 sm:h-10 mr-2">
       <img
-        src="/login-image/illustration_1.png"
+        src="/login-page-images/illustration_1.png"
         alt="Dashboard illustration"
         class="w-full h-full object-contain"
       />
@@ -38,7 +38,7 @@
       <h1 class="text-2xl sm:text-3xl lg:text-4xl font-semibold text-slate-900 mb-2">Login</h1>
       <p class="text-sm sm:text-base text-slate-500 mb-6 sm:mb-8">Welcome back! Please login to your account.</p>
 
-      <form [formGroup]="form" class="space-y-5">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()"  class="space-y-5">
         <div class="flex flex-col">
           <label class="text-sm text-slate-700 mb-1">Email</label>
           <input
@@ -92,7 +92,7 @@
     <!-- Right: Illustration -->
     <section class="hidden lg:flex items-center justify-center">
       <img
-        src="/login-image/image_1.png"
+        src="/login-page-images/image_1.png"
         alt="Dashboard illustration"
         class="w-full h-auto scale-125 lg:scale-150 mb-12"
       />
