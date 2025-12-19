@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ReactiveFormsModule, FormBuilder, FormControl,Validators, FormGroup} from '@angular/forms';
+import {ReactiveFormsModule, FormControl,Validators, FormGroup} from '@angular/forms';
+import {AuthService} from '../auth.service';
+import autoprefixer = require('autoprefixer');
 
 @Component({
   selector: 'app-login-page',
@@ -11,14 +13,27 @@ import {ReactiveFormsModule, FormBuilder, FormControl,Validators, FormGroup} fro
 })
 export class LoginPage {
   form = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl('')
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required])
   }
   );
   showPassword = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private auth:AuthService) {}
 
+  onSubmit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.auth.authenticateUser(this.form.value.email, this.form.value.password).subscribe({
+      next: (response: any) => {
+        console.log(response);
+      },
+      error: (error: any) => {
+        console.error(error);
+      }
+    });
   }
 
   togglePasswordVisibility() {
