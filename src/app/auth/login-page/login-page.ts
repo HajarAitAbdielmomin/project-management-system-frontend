@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ReactiveFormsModule, FormControl,Validators, FormGroup} from '@angular/forms';
 import {AuthService} from '../../auth.service';
-import autoprefixer = require('autoprefixer');
 import {StorageService} from '../../storage.service';
 import { Router } from '@angular/router';
-import {routes} from '../../app.routes';
 @Component({
   selector: 'app-login-page',
   standalone: true,
