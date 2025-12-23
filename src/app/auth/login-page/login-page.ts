@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ReactiveFormsModule, FormControl,Validators, FormGroup} from '@angular/forms';
-import {AuthService} from '../auth.service';
+import {AuthService} from '../../auth.service';
 import autoprefixer = require('autoprefixer');
+import {StorageService} from '../../storage.service';
 
 @Component({
   selector: 'app-login-page',
@@ -19,7 +20,7 @@ export class LoginPage {
   );
   showPassword = false;
 
-  constructor(private auth:AuthService) {}
+  constructor(private auth:AuthService, private storageService:StorageService) {}
 
   onSubmit() {
     if (this.form.invalid) {
@@ -28,7 +29,8 @@ export class LoginPage {
     }
     this.auth.authenticateUser(this.form.value.email, this.form.value.password).subscribe({
       next: (response: any) => {
-        console.log(response);
+        this.storageService.storeToken(response.token);
+
       },
       error: (error: any) => {
         console.error(error);
