@@ -4,7 +4,8 @@ import {ReactiveFormsModule, FormControl,Validators, FormGroup} from '@angular/f
 import {AuthService} from '../../auth.service';
 import autoprefixer = require('autoprefixer');
 import {StorageService} from '../../storage.service';
-
+import { Router } from '@angular/router';
+import {routes} from '../../app.routes';
 @Component({
   selector: 'app-login-page',
   standalone: true,
@@ -19,17 +20,30 @@ export class LoginPage {
   }
   );
   showPassword = false;
-
-  constructor(private auth:AuthService, private storageService:StorageService) {}
+  roles: string[] = []
+  constructor(private router:Router,private auth:AuthService, private storageService:StorageService) {}
 
   onSubmit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
+
     this.auth.authenticateUser(this.form.value.email, this.form.value.password).subscribe({
       next: (response: any) => {
         this.storageService.storeToken(response.token);
+
+        this.roles = response.roles
+
+        if(this.roles.includes("ROLE_ADMIN")){
+          void this.router.navigate(['admin/dashboard']);
+        } else if(this.roles.includes("ROLE_PROJECT_MANAGER")){
+          void this.router.navigate(['project-manager/dashboard']);
+        } else if(this.roles.includes("ROLE_TEAM_MEMBER")){
+          void this.router.navigate(['team-member/dashboard']);
+        } else if(this.roles.includes("ROLE_PRODUCT_OWNER")){
+          void this.router.navigate(['product-owner/dashboard']);
+        }else void this.router.navigate(['']);
 
       },
       error: (error: any) => {
@@ -40,5 +54,6 @@ export class LoginPage {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+
   }
 }
